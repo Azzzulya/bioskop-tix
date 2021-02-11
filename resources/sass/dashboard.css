@@ -41,6 +41,7 @@ table.table tr th {
 table.table tr td {
   color: #737373;
   font-size: 0.9em;
+  vertical-align: middle;
 }
 
 .pagination {
@@ -50,5 +51,10 @@ table.table tr td {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.form-group label {
+  margin-bottom: 0px;
+  font-weight: bold;
 }
 /*# sourceMappingURL=dashboard.css.map */

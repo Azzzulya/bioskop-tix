@@ -4,18 +4,18 @@
   <div class="card ">
     <div class="card-header">
       <div class="row">
-        <div class="col-8">
+        <div class="col-8 align-self-center">
           <h3>Users</h3>
         </div>
         <div class="col-4 text-right">
-          <button class="btn text-secondary btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button>
+          <button class="btn text-secondary btn-sm" data-toggle="modal" data-target="#deleteModal"> <i class="fas fa-trash"></i> </button>
         </div>
       </div>
     </div>
 
-    <div class="card-body p-0">
+    <div class="card-body ">
       <div class="row">
-        <div class="col-md-8 offset-md-2 py-3">
+        <div class="col-md-8 offset-md-2 ">
           <form method="post" action="{{ url('dashboard/user/update/'. $user->id)}}">
             @csrf
             <div class="form-group">
@@ -32,7 +32,8 @@
                 <span class="text-danger">{{$message}}</span>
               @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group mb-0">
+              <button class="btn btn-secondary btn-sm" onclick="window.history.back()" type="button" > Cancel</button>
               <button type="submit" class="btn btn-success btn-sm">Update</button>
             </div>
           </form>
@@ -56,7 +57,7 @@
           <form action="{{url('dashboard/user/delete/'. $user->id)}}" method="POST">
             @csrf
             @method('delete')
-            <button class="btn btn-sm btn-danger">Delete</button>
+            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
           </form>
         </div>
       </div>
