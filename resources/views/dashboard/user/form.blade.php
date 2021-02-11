@@ -7,15 +7,15 @@
         <div class="col-8">
           <h3>Users</h3>
         </div>
-        <div class="col-4">
-
+        <div class="col-4 text-right">
+          <button class="btn text-secondary btn-sm" data-toggle="modal" data-target="#deleteModal">Delete</button>
         </div>
       </div>
     </div>
 
     <div class="card-body p-0">
       <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8 offset-md-2 py-3">
           <form method="post" action="{{ url('dashboard/user/update/'. $user->id)}}">
             @csrf
             <div class="form-group">
@@ -38,6 +38,28 @@
           </form>
         </div>
      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Delete</h5>
+        </div>
+
+        <div class="modal-body">
+         <p> Anda yakin ingin menghapus user {{$user->name}} </p>
+        </div>
+
+        <div class="modal-footer">
+          <form action="{{url('dashboard/user/delete/'. $user->id)}}" method="POST">
+            @csrf
+            @method('delete')
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 @endsection
