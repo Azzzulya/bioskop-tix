@@ -7,6 +7,16 @@
         <div class="col-8">
           <h3>Users</h3>
         </div>
+        <div class="col-4">
+          <form action="{{url('dashboard/users')}}" method="get">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Name" name="q">
+              <div class="input-group-append">
+                <button class="btn btn-secondary btn-sm"  type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <div class="card-body p-0">
