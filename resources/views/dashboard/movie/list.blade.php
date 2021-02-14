@@ -20,12 +20,14 @@
       </div>
     </div>
     <div class="card-body p-0">
+    @if ($movies->total())
       <table class="table table-borderless table-striped table-hover">
         <thead>
           <tr>
             <th>#</th>
             <th>Title</th>
             <th>Thumbnail</th>
+            <th>Description</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -35,6 +37,7 @@
             <th scope="row"> {{($movies->currentPage() - 1 ) * $movies->perPage() + $loop->iteration}}</th> 
             <td>{{$movie->title}}</td>
             <td>{{$movie->thumbnail}}</td>
+            <td>{{$movie->description}}</td>
             <td>
               <a href="{{route('dashboard.movies.edit',['id' => $movie->id])}}" class="btn btn-success btn-sm" title="Edit">
                 <i class="fas fa-pen"></i>
@@ -45,6 +48,10 @@
         </tbody>
       </table>
       {{$movies->appends($request)->links() }}
+    @else
+        <h4 class="text-center p-3"> There is no data in movie list</h4>
+    @endif
+     
     </div>
   </div>
 @endsection
