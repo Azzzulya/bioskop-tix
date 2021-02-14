@@ -23,9 +23,16 @@ Auth::routes();
 
 // Auth::routes();
 
-Route::get('/dashboard', 'dashboard\DashboardController@index');
 
-Route::get('/dashboard/users', 'dashboard\UserController@index')->name('dashboard.users');
-Route::get('/dashboard/users/{id}', 'dashboard\UserController@edit')->name('dashboard.users.edit');
-Route::post('/dashboard/users/{id}', 'dashboard\UserController@update')->name('dashboard.users.update');
-Route::delete('/dashboard/users/{id}', 'dashboard\UserController@destroy')->name('dashboard.users.delete');
+
+Route::middleware('auth')->group(function(){
+
+    Route::get('/dashboard', 'Dashboard\DashboardController@index');
+    // users
+    Route::get('/dashboard/users', 'Dashboard\UserController@index')->name('dashboard.users');
+    Route::get('/dashboard/users/{id}', 'Dashboard\UserController@edit')->name('dashboard.users.edit');
+    Route::post('/dashboard/users/{id}', 'Dashboard\UserController@update')->name('dashboard.users.update');
+    Route::delete('/dashboard/users/{id}', 'Dashboard\UserController@destroy')->name('dashboard.users.delete');
+
+});
+
