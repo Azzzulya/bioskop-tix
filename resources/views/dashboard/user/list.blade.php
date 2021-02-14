@@ -8,7 +8,7 @@
           <h3>Users</h3>
         </div>
         <div class="col-4">
-          <form action="{{url('dashboard/users')}}" method="get">
+          <form action="{{route('dashboard.users')}}" method="get">
             <div class="input-group">
               <input type="text" class="form-control form-control-sm" value="{{$request['q'] ?? ''}}" name="q">
               <div class="input-group-append">
@@ -39,7 +39,11 @@
             <td>{{$user->email}}</td>
             <td>{{$user->created_at}}</td>
             <td>{{$user->updated_at}}</td>
-            <td><a href="{{url('dashboard/user/edit/'.$user->id)}}" class="btn btn-success btn-sm" title="Edit"><i class="fas fa-pen"></i> </a></td>
+            <td>
+              <a href="{{route('dashboard.users.edit',['id' => $user->id])}}" class="btn btn-success btn-sm" title="Edit">
+                <i class="fas fa-pen"></i>
+               </a>
+            </td>
           </tr>
         @endforeach
         </tbody>
