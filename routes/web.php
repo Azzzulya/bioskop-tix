@@ -26,11 +26,16 @@ Auth::routes();
 
 
 Route::middleware('auth')->group(function(){
-
     Route::get('/dashboard', 'Dashboard\DashboardController@index')->name('dashboard');
-    Route::get('/dashboard/movies', 'Dashboard\MovieController@index')->name('dashboard.movies');
     Route::get('/dashboard/theaters', 'Dashboard\TheaterController@index')->name('dashboard.theaters');
     Route::get('/dashboard/tickets', 'Dashboard\TicketController@index')->name('dashboard.tickets');
+
+    // movies
+    Route::get('/dashboard/movies', 'Dashboard\MovieController@index')->name('dashboard.movies');
+    Route::get('/dashboard/movies/{id}', 'Dashboard\MovieController@edit')->name('dashboard.movies.edit');
+    Route::post('/dashboard/movies/{id}', 'Dashboard\MovieController@update')->name('dashboard.movies.update');
+    Route::delete('/dashboard/movies/{id}', 'Dashboard\MovieController@destroy')->name('dashboard.movies.delete');
+    
     // users
     Route::get('/dashboard/users', 'Dashboard\UserController@index')->name('dashboard.users');
     Route::get('/dashboard/users/{id}', 'Dashboard\UserController@edit')->name('dashboard.users.edit');
