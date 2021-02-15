@@ -16,12 +16,11 @@
     <div class="card-body ">
       <div class="row">
         <div class="col-md-8 offset-md-2 ">
-          <form method="post" action="{{route($url, $movie->id)}}" enctype="multipart/form-data">
+          <form method="post" action="{{route('dashboard.movies.store')}}" enctype="multipart/form-data">
             @csrf
-            @method('put')
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control" name="title" value="{{ old('title') ?? $movie->title}}">
+              <input type="text" class="form-control" name="title" value="{{$movie->title}}">
               @error('title')
                 <span class="text-danger">{{$message}}</span>
               @enderror
@@ -29,7 +28,7 @@
 
             <div class="form-group">
               <label for="description">Description</label>
-              <textarea class="form-control" name="description"> {{old('description') ?? $movie->description}}</textarea>
+              <textarea class="form-control" name="description" >{{$movie->description}}</textarea>
               @error('description')
                 <span class="text-danger">{{$message}}</span>
               @enderror
@@ -37,7 +36,7 @@
 
             <div class="form-group mt-4">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" name="thumbnail" value="{{old('description')}}">
+                <input type="file" class="custom-file-input" name="thumbnail">
                 <label for="thumbnail" class="custom-file-label">Thumbnail</label>
                 @error('thumbnail')
                   <span class="text-danger">{{$message}}</span>
@@ -47,7 +46,7 @@
          
             <div class="form-group mb-0">
               <button class="btn btn-secondary btn-sm" onclick="window.history.back()" type="button" > Cancel</button>
-              <button type="submit" class="btn btn-success btn-sm">{{$button}}</button>
+              <button type="submit" class="btn btn-success btn-sm">Create</button>
             </div>
           </form>
         </div>
@@ -64,7 +63,7 @@
         </div>
 
         <div class="modal-body">
-         <p> Anda yakin ingin menghapus user  </p>
+         <p> Anda yakin ingin menghapus user </p>
         </div>
 
         <div class="modal-footer">

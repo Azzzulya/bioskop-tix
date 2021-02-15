@@ -42,7 +42,7 @@
               <h4><strong>{{$movie->title}}</strong></h4>
             </td>
             <td>
-              <a href="{{route('dashboard.movies.edit',['id' => $movie->id])}}" class="btn btn-success btn-sm" title="Edit">
+              <a href="{{route('dashboard.movies.edit',$movie->id)}}" class="btn btn-success btn-sm" title="Edit">
                 <i class="fas fa-pen"></i>
                </a>
             </td>

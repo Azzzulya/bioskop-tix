@@ -45,7 +45,9 @@ class MovieController extends Controller
         $active = 'Movies';
 
         return view('dashboard/movie/form',[
-            'active' => $active
+            'active' => $active,
+            'button' => 'update',
+            'url'    => 'dashboard.movies.store'
         ]);
     }
 
@@ -95,13 +97,20 @@ class MovieController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
     public function edit(Movie $movie)
     {
-        //
+        $active = 'Movies';
+
+        return view('dashboard/movie/form',[
+            'active'    => $active,
+            'movie'     => $movie,
+            'button'    => 'update',
+            'url'       => 'dashboard.movies.update'
+        ]);
     }
 
     /**
@@ -113,7 +122,31 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|unique:App\Models\Movie,title,'.$movie->id,
+            'description' => 'required',
+            'thumbnail' => 'image',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('dashboard.movies.update', $movie->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            // upload file image with custom name file
+            if($request->hasFile('thumbnail')){
+                $image = $request->file('thumbnail');
+                $filename = time().'.'.$image->getClientOriginalExtension();
+                Storage::disk('local')->putFileAs('public/movies', $image, $filename);
+                $movie->thumbnail = $filename;
+            }
+           
+            $movie->title = $request->input('title');
+            $movie->description = $request->input('description');
+            $movie->save();
+            return redirect()->route('dashboard.movies');
+        }
     }
 
     /**
