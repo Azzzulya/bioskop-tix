@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MovieController extends Controller
 {
@@ -40,7 +42,11 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        $active = 'Movies';
+
+        return view('dashboard/movie/form',[
+            'active' => $active
+        ]);
     }
 
     /**
@@ -49,9 +55,31 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Movie $movie)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|unique:App\Models\Movie,title',
+            'description' => 'required',
+            'thumbnail' => 'required|image',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('dashboard.movies.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            // upload file image with custom name file
+            $image = $request->file('thumbnail');
+            $filename = time().'.'.$image->getClientOriginalExtension();
+            Storage::disk('local')->putFileAs('public/movies', $image, $filename);
+
+            $movie->title = $request->input('title');
+            $movie->description = $request->input('description');
+            $movie->thumbnail = $filename;
+            $movie->save();
+            return redirect()->route('dashboard.movies');
+        }
     }
 
     /**
