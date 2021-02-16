@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
 use App\Models\Theater;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class TheaterController extends Controller
 {
@@ -13,9 +15,25 @@ class TheaterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Theater $theaters)
     {
-        //
+        $q = $request->input('q');
+
+        $active = 'Theaters';
+
+        $theaters = $theaters->when($q, function($query) use($q){
+                    return $query->where('theater', 'like', '%'.$q.'%')
+                    ->orWhere('alamat', 'like', '%'.$q.'%');    
+                })
+                ->paginate(10);
+
+        $request = $request->all();
+        
+        return view('dashboard/theater/list',[
+            'theaters' => $theaters, 
+            'request' => $request, 
+            'active' => $active
+            ]);
     }
 
     /**
@@ -25,7 +43,13 @@ class TheaterController extends Controller
      */
     public function create()
     {
-        //
+        $active = 'Theaters';
+
+        return view('dashboard/theater/form',[
+            'active' => $active,
+            'button' => 'Create',
+            'url'    => 'dashboard.theaters.store'
+        ]);
     }
 
     /**
@@ -34,9 +58,33 @@ class TheaterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Theater $theater)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|unique:App\Models\Movie,title',
+            'description' => 'required',
+            'thumbnail' => 'required|image',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('dashboard.movies.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            // upload file image with custom name file
+            $image = $request->file('thumbnail');
+            $filename = time().'.'.$image->getClientOriginalExtension();
+            Storage::disk('local')->putFileAs('public/movies', $image, $filename);
+
+            $theater->title = $request->input('title');
+            $theater->description = $request->input('description');
+            $theater->thumbnail = $filename;
+            $theater->save();
+            return redirect()
+                ->route('dashboard.theaters')
+                ->with('message', __('messages.store', ['title' => $request->input('title')]) );
+        }
     }
 
     /**
