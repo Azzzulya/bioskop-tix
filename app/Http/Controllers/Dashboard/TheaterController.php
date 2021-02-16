@@ -23,7 +23,7 @@ class TheaterController extends Controller
 
         $theaters = $theaters->when($q, function($query) use($q){
                     return $query->where('theater', 'like', '%'.$q.'%')
-                    ->orWhere('alamat', 'like', '%'.$q.'%');    
+                    ->orWhere('address', 'like', '%'.$q.'%');    
                 })
                 ->paginate(10);
 
