@@ -20,34 +20,40 @@
       </div>
     </div>
     <div class="card-body p-0">
-      <table class="table table-borderless table-striped table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Registered</th>
-            <th>Edited</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($users as $user)
-          <tr>
-            <th scope="row"> {{($users->currentPage() - 1 ) * $users->perPage() + $loop->iteration}}</th> 
-            <td>{{$user->name}}</td>
-            <td>{{$user->email}}</td>
-            <td>{{$user->created_at}}</td>
-            <td>{{$user->updated_at}}</td>
-            <td>
-              <a href="{{route('dashboard.users.edit',['id' => $user->id])}}" class="btn btn-success btn-sm" title="Edit">
-                <i class="fas fa-pen"></i>
-               </a>
-            </td>
-          </tr>
-        @endforeach
-        </tbody>
-      </table>
+      @if ($users->total())
+        <table class="table table-borderless table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Registered</th>
+              <th>Edited</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($users as $user)
+            <tr>
+              <th scope="row"> {{($users->currentPage() - 1 ) * $users->perPage() + $loop->iteration}}</th> 
+              <td>{{$user->name}}</td>
+              <td>{{$user->email}}</td>
+              <td>{{$user->created_at}}</td>
+              <td>{{$user->updated_at}}</td>
+              <td>
+                <a href="{{route('dashboard.users.edit',['id' => $user->id])}}" class="btn btn-success btn-sm" title="Edit">
+                  <i class="fas fa-pen"></i>
+                </a>
+              </td>
+            </tr>
+          @endforeach
+          </tbody>
+        </table>
+      @else
+        <h4 class="text-center p-3"> {{__('messages.no_data', ['module' => 'User'])}} </h4>     
+      @endif
+
+    
       {{$users->appends($request)->links() }}
     </div>
   </div>
