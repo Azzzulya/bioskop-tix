@@ -4,7 +4,16 @@
   <div class="mb-2">
     <a href="{{route('dashboard.movies.create')}}" class="btn btn-sm btn-primary">+ Movie</a>
   </div>
-  <div class="card ">
+
+  @if (session()->has('message'))
+    <div class="alert alert-success">
+      <strong>{{__(session()->get('message'))}}</strong>
+      <button type="button" class="close" data-dismiss="alert">
+        <span>&times;</span>
+      </button>
+    </div>
+  @endif
+  
     <div class="card-header">
       <div class="row">
         <div class="col-8 align-self-center">
@@ -56,5 +65,5 @@
     @endif
      
     </div>
-  </div>
+  </>
 @endsection
