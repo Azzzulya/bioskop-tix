@@ -61,29 +61,25 @@ class TheaterController extends Controller
     public function store(Request $request, Theater $theater)
     {
         $validator = Validator::make($request->all(),[
-            'title' => 'required|unique:App\Models\Movie,title',
-            'description' => 'required',
-            'thumbnail' => 'required|image',
+            'theater' => 'required',
+            'address' => 'required',
+            'status' => 'required',
         ]);
 
         if($validator->fails()){
-            return redirect()->route('dashboard.movies.create')
+            return redirect()->route('dashboard.theaters.create')
                 ->withErrors($validator)
                 ->withInput();
         }
         else{
-            // upload file image with custom name file
-            $image = $request->file('thumbnail');
-            $filename = time().'.'.$image->getClientOriginalExtension();
-            Storage::disk('local')->putFileAs('public/movies', $image, $filename);
 
-            $theater->title = $request->input('title');
-            $theater->description = $request->input('description');
-            $theater->thumbnail = $filename;
+            $theater->theater = $request->input('theater');
+            $theater->address = $request->input('address');
+            $theater->status = $request->input('status');
             $theater->save();
             return redirect()
                 ->route('dashboard.theaters')
-                ->with('message', __('messages.store', ['title' => $request->input('title')]) );
+                ->with('message', __('messages.store', ['title' => $request->input('theater')]) );
         }
     }
 

@@ -30,9 +30,9 @@
             </div>
 
             <div class="form-group">
-              <label for="alamat">Address</label>
-              <textarea class="form-control @error('alamat') {{ 'is-invalid' }} @enderror" name="alamat"> {{old('alamat') ?? $theater->alamat ?? ''}}</textarea>
-              @error('alamat')
+              <label for="address">Address</label>
+              <textarea class="form-control @error('address') {{ 'is-invalid' }} @enderror" name="address"> {{old('address') ?? $theater->address ?? ''}}</textarea>
+              @error('address')
                 <span class="text-danger">{{$message}}</span>
               @enderror
             </div>
@@ -49,6 +49,9 @@
               <input type="radio" name="status" class="form-check-input" value="inactive" id="inactive">
               <label for="inactive" class="form-check-label">InActive</label>
              </div>
+             @error('status')
+             <span class="text-danger">{{$message}}</span>
+           @enderror
            </div>
          
             <div class="form-group mb-0">
