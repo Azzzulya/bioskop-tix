@@ -61,7 +61,7 @@ class TheaterController extends Controller
     public function store(Request $request, Theater $theater)
     {
         $validator = Validator::make($request->all(),[
-            'theater' => 'required',
+            'theater' => 'required|unique:App\Models\Theater,theater',
             'address' => 'required',
             'status' => 'required',
         ]);
@@ -102,7 +102,14 @@ class TheaterController extends Controller
      */
     public function edit(Theater $theater)
     {
-        //
+        $active = 'Theaters';
+
+        return view('dashboard/theater/form',[
+            'active'    => $active,
+            'theater'   => $theater,
+            'button'    => 'update',
+            'url'       => 'dashboard.theaters.update'
+        ]);
     }
 
     /**
@@ -114,7 +121,26 @@ class TheaterController extends Controller
      */
     public function update(Request $request, Theater $theater)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'theater' => 'required|unique:App\Models\Theater,theater,'.$theater->id,
+            'address' => 'required',
+            'status' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->route('dashboard.theaters.update', $theater->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            $theater->theater = $request->input('theater');
+            $theater->address = $request->input('address');
+            $theater->status = $request->input('status');
+            $theater->save();
+            return redirect()
+                ->route('dashboard.theaters')
+                ->with('message', __('messages.store', ['title' => $theater->theater]) );
+        }
     }
 
     /**
@@ -125,6 +151,9 @@ class TheaterController extends Controller
      */
     public function destroy(Theater $theater)
     {
-        //
+        $theater->delete();
+        return redirect()
+            ->route('dashboard.theaters')
+            ->with('message', __('messages.delete', ['title' => $theater->theater]) );
     }
 }
