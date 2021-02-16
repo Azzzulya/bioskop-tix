@@ -44,12 +44,11 @@
         <tbody>
           @foreach ($theaters as $theater)
           <tr>
-          
             <td>
-              <h4><strong>{{$theater->theater}}</strong></h4>
+              {{$theater->theater}}
             </td>
             <td>
-              <h4><strong>{{$theater->alamat}}</strong></h4>
+              {{$theater->address}}
             </td>
             <td>
               <a href="{{route('dashboard.theaters.edit',$theater->id)}}" class="btn btn-success btn-sm" title="Edit">
