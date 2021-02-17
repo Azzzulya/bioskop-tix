@@ -13,7 +13,7 @@ class CreateTableArrangeMovie extends Migration
      */
     public function up()
     {
-        Schema::create('arrange_movie', function (Blueprint $table) {
+        Schema::create('arrange_movies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('theater_id')->constrained('theaters');
             $table->foreignId('movie_id')->constrained('movies');
@@ -33,6 +33,6 @@ class CreateTableArrangeMovie extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('arrange_movie');
+        Schema::dropIfExists('arrange_movies');
     }
 }
