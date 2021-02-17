@@ -54,6 +54,9 @@
               <a href="{{route('dashboard.theaters.edit',$theater->id)}}" class="btn btn-success btn-sm" title="Edit">
                 <i class="fas fa-pen"></i>
                </a>
+              <a href="{{route('dashboard.theaters.arrange.movie',$theater->id)}}" class="btn btn-primary btn-sm" title="Arrange movie">
+                <i class="fas fa-film"></i>
+               </a>
             </td>
           </tr>
         @endforeach
