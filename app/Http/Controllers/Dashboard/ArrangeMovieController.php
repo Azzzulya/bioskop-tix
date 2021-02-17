@@ -128,7 +128,7 @@ class ArrangeMovieController extends Controller
             'active'            => $active,
             'arrangeMovie'      => $arrangeMovie,
             'theater'           => $theater,
-            'movies'           => $movies,
+            'movies'            => $movies,
             'button'            => 'update',
             'url'               => 'dashboard.theaters.arrange.movie.update'
         ]);
